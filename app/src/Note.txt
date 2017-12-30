@@ -1,0 +1,25 @@
+手机服务器微架构设计与实现 之 http server
+
+本项目主要实现了：
+ ·手机http server 微架构
+ ·app内置网页功能
+ ·WIFI传图功能
+
+· 使用 Server socket创建TCP服务器端
+  TCP通信的两个通信实体之间并没有服务器端、客户端之分,但那是两个通信实体已经建立虚拟链路之后的示意图。在两个通信实体没有建立虚拟链路之前必有一个通信实体先做出“主动姿态”,主动接收来自其他通信实体的连接请求。
+
+  Java中能接收其他通信实体连接请求的类是 Server socket, Serversocket对象用于监听来自客户端的 Socket连接,如果没有连接,它将一直处于等待状态。 Serversocket包含一个监听来自客户端连接请求的方法。
+
+	Socket accept():如果接收到一个客户端 Socket的连接请求,该方法将返回一个与连接客户端 Socket对应的 Socket（每个TCP连接有两个Soket)；否则该方法将一直处于等待状态,线程也被阻塞。
+为了创建 Serversocket对象, Serversocket类提供了如下几个构造器。
+
+	Serversocket(int port):用指定的端口pot来创建一个 Serversocket  该端口应该有一个有效的端口整数值0-65535。
+
+	ServerSocket(int port,int backlog):增加一个用来改变连接队列长度的参数 backlog。
+
+	ServerSocket(int port,int backlog,Inetaddress localaddr):在机器存在多个IP地址的情况下,允许通过localaddr这个参数来指定将 ServerSocket绑定到指定的IP地址。
+
+	当 ServerSocket使用完毕后,应使用 ServerSocket的 close()方法来关闭该 ServerSocket。
+
+	在通常情况下,服务器不应该只接收一个客户端请求,而应该不断地接收来自客户端的所有请求,所以Java程序通常会通过循环不断地调用 ServerSocket的 accept()方法。
+
